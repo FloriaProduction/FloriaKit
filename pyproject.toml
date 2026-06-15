@@ -1,0 +1,68 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "cython>=3.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "FloriaKit"
+dynamic = ["version"]
+description = "FloriaKit — инструменты для аннотаций, валидации, протоколов и утилит."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "FloriaProduction", email = "FloriaProduction@yandex.ru" }]
+requires-python = ">=3.14,<3.15"
+keywords = ['kit']
+classifiers = [
+    "Intended Audience :: Developers",
+
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+
+    "License :: OSI Approved :: Apache Software License",
+
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.14",
+
+    "Typing :: Typed",
+]
+
+[project.optional-dependencies]
+pyglm = ["pyglm==2.8.3"]
+test = ["pytest", "pytest-benchmark", "pytest-asyncio"]
+all = ["pyglm==2.8.3", "pytest", "pytest-benchmark", "pytest-asyncio"]
+
+[project.urls]
+Repository = "https://github.com/FloriaProduction/FloriaKit"
+
+[tool.black]
+line-length = 88
+skip-string-normalization = true
+
+[tool.setuptools]
+packages = ["FloriaKit"]
+package-dir = { "FloriaKit" = "./FloriaKit" }
+ext-modules = [
+    { name = 'FloriaKit.utils.vector', sources = [
+        'src/FloriaKit/utils/vector.pyx',
+    ] },
+    { name = 'FloriaKit.utils.events', sources = [
+        'src/FloriaKit/utils/events.pyx',
+    ] },
+    { name = 'FloriaKit.utils.flag', sources = [
+        'src/FloriaKit/utils/flag.pyx',
+    ] },
+    { name = 'FloriaKit.utils.avg', sources = [
+        'src/FloriaKit/utils/avg.pyx',
+    ] },
+    { name = 'FloriaKit.utils.interpolation_field', sources = [
+        'src/FloriaKit/utils/interpolation_field.pyx',
+    ] },
+    { name = 'FloriaKit.utils.timers', sources = [
+        'src/FloriaKit/utils/timers.pyx',
+    ] },
+]
+
+[tool.setuptools.package-data]
+"*" = ["*.txt", "*.json", "*.md"]
+
+[tool.setuptools.exclude-package-data]
+"*" = ["__pycache__/*", "*.pyc", "*.pyo"]

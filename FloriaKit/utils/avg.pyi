@@ -1,0 +1,33 @@
+import typing as t
+
+class Avg:
+    """Accumulator for incremental average calculation.
+
+    Efficiently computes arithmetic mean without storing all values.
+    Suitable for real-time metrics tracking.
+
+    For example::
+
+        avg = Avg()
+
+        avg.add(60)
+        avg.add(30)
+
+        avg.value  # 45
+    """
+
+    def __init__(self) -> None: ...
+    def add(self, value: float) -> t.Self: ...
+    def extend(self, values: t.Iterable[float]) -> t.Self: ...
+    def clear(self) -> t.Self: ...
+    @property
+    def count(self) -> int: ...
+    @property
+    def total(self) -> float: ...
+    def get_value(self) -> float: ...
+    @property
+    def value(self) -> float: ...
+    def __len__(self) -> int: ...
+    def __iadd__(self, value: float) -> 'Avg': ...
+
+__all__ = ['Avg']
