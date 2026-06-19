@@ -59,6 +59,12 @@ ext-modules = [
     { name = 'FloriaKit.utils.timers', sources = [
         'src/FloriaKit/utils/timers.pyx',
     ] },
+    { name = 'FloriaKit.hints.align', sources = [
+        'src/FloriaKit/hints/align.pyx',
+    ] },
+    { name = 'FloriaKit.hints.color.common', sources = [
+        'src/FloriaKit/hints/color/common.pyx',
+    ] },
 ]
 
 [tool.setuptools.package-data]

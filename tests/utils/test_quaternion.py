@@ -1,8 +1,6 @@
 import math
 import typing as t
 
-import pytest
-
 from FloriaKit.utils.quaternion import (
     look_at,
     slerp,
@@ -12,9 +10,6 @@ from FloriaKit.utils.quaternion import (
 )
 
 
-# ---------------------------------------------------------------------------
-# Вспомогательные функции
-# ---------------------------------------------------------------------------
 def quat_length(q: t.Tuple[float, float, float, float]) -> float:
     return math.sqrt(sum(c * c for c in q))
 
@@ -48,9 +43,6 @@ def assert_quat_close(
     assert close_same or close_neg, f"Quaternions differ: {q1} vs {q2}"
 
 
-# ---------------------------------------------------------------------------
-# Тесты look_at
-# ---------------------------------------------------------------------------
 class TestLookAt:
     def test_look_at_identity_no_rotation(self) -> None:
         q = look_at(
@@ -58,7 +50,6 @@ class TestLookAt:
             target=(0.0, 0.0, -1.0),
             up=(0.0, 1.0, 0.0),
         )
-        # Ожидаемый единичный кватернион (в glm порядок w,x,y,z)
         expected = (1.0, 0.0, 0.0, 0.0)
         assert isinstance(q, tuple)
         assert len(q) == 4
@@ -87,9 +78,6 @@ class TestLookAt:
         assert_quat_close(q1, q2)
 
 
-# ---------------------------------------------------------------------------
-# Тесты lerp
-# ---------------------------------------------------------------------------
 class TestLerp:
     def test_lerp_start_progress_zero(self) -> None:
         start = (1.0, 0.0, 0.0, 0.0)
@@ -118,9 +106,6 @@ class TestLerp:
         assert len(r) == 4
 
 
-# ---------------------------------------------------------------------------
-# Тесты from_euler
-# ---------------------------------------------------------------------------
 class TestFromEuler:
     def test_zero_angles_gives_identity(self) -> None:
         q = from_euler((0.0, 0.0, 0.0))
@@ -134,9 +119,6 @@ class TestFromEuler:
         assert_quat_normalized(q)
 
 
-# ---------------------------------------------------------------------------
-# Тесты from_axis_angle
-# ---------------------------------------------------------------------------
 class TestFromAxisAngle:
     def test_zero_angle_gives_identity(self) -> None:
         q = from_axis_angle((1.0, 0.0, 0.0), 0.0)
@@ -159,13 +141,12 @@ class TestFromAxisAngle:
         """PyGLM не нормализует ось автоматически – длина оси влияет на длину кватерниона."""
         q = from_axis_angle((3.0, 4.0, 0.0), math.radians(30))  # длина оси 5
         length = quat_length(q)
-        # Длина не равна 1.0
         assert not math.isclose(
             length, 1.0, rel_tol=1e-3
         ), f"Expected non-unit quaternion for non-unit axis, got length {length}"
 
     def test_unit_axis_produces_unit_quaternion(self) -> None:
         """Нормализованная ось даёт единичный кватернион."""
-        axis = (0.6, 0.8, 0.0)  # длина 1
+        axis = (0.6, 0.8, 0.0)
         q = from_axis_angle(axis, math.radians(30))
         assert_quat_normalized(q)

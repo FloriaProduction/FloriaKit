@@ -42,6 +42,7 @@ def get_from_module(
         if not hasattr(value_or_module, name):
             if 'default' in kw:
                 return kw['default']
+
             raise exception.get_exception(
                 kw.get('exception'),
                 default=ValueError(

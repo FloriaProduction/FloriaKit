@@ -14,57 +14,33 @@ type AlignSimple = t.Literal[
     'c',
 ]
 
-
 class _AlignLeft(t.TypedDict, total=False):
     left: number
-
 
 class _AlignCenterX(t.TypedDict, total=False):
     center_x: number
 
-
 class _AlignRight(t.TypedDict, total=False):
     right: number
-
 
 class _AlignTop(t.TypedDict, total=False):
     top: number
 
-
 class _AlignCenterY(t.TypedDict, total=False):
     center_y: number
-
 
 class _AlignBottom(t.TypedDict, total=False):
     bottom: number
 
-
 class _AlignLeftTop(_AlignLeft, _AlignTop): ...
-
-
 class _AlignLeftCenterY(_AlignLeft, _AlignCenterY): ...
-
-
 class _AlignLeftBottom(_AlignLeft, _AlignBottom): ...
-
-
 class _AlignCenterXTop(_AlignCenterX, _AlignTop): ...
-
-
 class _AlignCenterXCenterY(_AlignCenterX, _AlignCenterY): ...
-
-
 class _AlignCenterXBottom(_AlignCenterX, _AlignBottom): ...
-
-
 class _AlignRightTop(_AlignRight, _AlignTop): ...
-
-
 class _AlignRightCenterY(_AlignRight, _AlignCenterY): ...
-
-
 class _AlignRightBottom(_AlignRight, _AlignBottom): ...
-
 
 type AlignDetail = t.Union[
     _AlignLeftTop,
@@ -83,59 +59,7 @@ type AlignAny = t.Union[
     AlignDetail,
 ]
 
-
-def calculate_align(size: vec2, align: AlignAny) -> vec2:
-    x = y = 0
-
-    if isinstance(align, str):
-        match align:
-            case 'l' | 'lb' | 'lt':
-                x = 0
-
-            case 'r' | 'rb' | 'rt':
-                x = size[0]
-
-            case 'c' | 't' | 'b':
-                x = size[0] / 2
-
-            case _:
-                pass
-
-        match align:
-            case 't' | 'lt' | 'rt':
-                y = 0
-
-            case 'b' | 'lb' | 'rb':
-                y = size[1]
-
-            case 'c' | 'l' | 'r':
-                y = size[1] / 2
-
-            case _:
-                pass
-
-    else:
-
-        if 'left' in align:
-            x = align['left']
-
-        elif 'center_x' in align:
-            x = size[0] / 2 + align['center_x']
-
-        elif 'right' in align:
-            x = size[0] - align['right']
-
-        if 'top' in align:
-            y = align['top']
-
-        elif 'center_y' in align:
-            y = size[1] / 2 + align['center_y']
-
-        elif 'bottom' in align:
-            y = size[1] - align['bottom']
-
-    return (x, y)
-
+def calculate_align(size: vec2, align: AlignAny) -> vec2: ...
 
 __all__ = [
     'AlignSimple',
