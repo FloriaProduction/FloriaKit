@@ -1,3 +1,24 @@
+import typing as t
+
+
+AlignSimple = t.Literal[
+    'lt',
+    't',
+    'rt',
+    'r',
+    'rb',
+    'b',
+    'lb',
+    'l',
+    'c',
+]
+AlignDetail = dict
+
+AlignAny = t.Union[
+    AlignSimple,
+    AlignDetail,
+]
+
 
 cdef set _width_left_set = set(('t', 'lb', 't'))
 cdef set _width_center_set = set(('c', 't', 'b'))

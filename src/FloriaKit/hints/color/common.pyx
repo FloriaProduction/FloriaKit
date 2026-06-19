@@ -1,3 +1,17 @@
+import typing as t
+
+from ..common import number
+
+
+rgb = tuple[number, number, number]
+rgba = tuple[number, number, number, number]
+
+color = t.Union[
+    rgb,
+    rgba,
+]
+
+
 cpdef tuple[int, int, int, int] get_rgba(value: object):
     cdef object v
     cdef list[int] result = []
