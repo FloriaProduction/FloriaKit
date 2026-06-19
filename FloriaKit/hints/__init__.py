@@ -29,9 +29,15 @@ from .common import (
     vec4i,
     #
     OneOrMany,
+    #
     orientation,
+    #
     PathOrStr,
     get_path,
+    #
+    Ref,
+    to_ref,
+    from_ref,
 )
 from .quaternion import quat
 from .matrix import mat2x2, mat3x3, mat4x4
@@ -68,9 +74,15 @@ __all__ = [
     'vec4i',
     #
     'OneOrMany',
+    #
     'orientation',
+    #
     'PathOrStr',
     'get_path',
+    #
+    'Ref',
+    'to_ref',
+    'from_ref',
     #
     # quaternion
     #

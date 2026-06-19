@@ -1,5 +1,6 @@
 import typing as t
 import pathlib
+import weakref
 
 type number = int | float
 
@@ -51,6 +52,26 @@ def get_path(value: PathOrStr) -> pathlib.Path:
     return value
 
 
+Ref = weakref.ReferenceType
+
+
+def to_ref[T = t.Any](
+    instance: T | None,
+    *,
+    callback: t.Callable[[Ref[T]], t.Any] | None = None,
+    **kw: t.Any,
+) -> Ref[T] | None:
+    if instance is None:
+        return None
+    return Ref(instance, callback)
+
+
+def from_ref[T](ref: Ref[T] | Ref[T | None] | None):
+    if ref is None or (instance := ref()) is None:
+        return None
+    return instance
+
+
 __all__ = [
     'number',
     #
@@ -76,7 +97,13 @@ __all__ = [
     'vec4i',
     #
     'OneOrMany',
+    #
     'orientation',
+    #
     'PathOrStr',
     'get_path',
+    #
+    'Ref',
+    'to_ref',
+    'from_ref',
 ]

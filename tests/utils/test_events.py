@@ -4,16 +4,10 @@ import weakref
 import typing as t
 import pytest
 
-# Замените на актуальный путь импорта
 from FloriaKit.utils.events import Event, EventAsync
 
 
-# ---------------------------------------------------------------------------
-# Вспомогательные фабрики обработчиков
-# ---------------------------------------------------------------------------
 def sync_collector(calls: list[t.Any]):
-    """Создаёт синхронный обработчик, который сохраняет вызовы в список."""
-
     def handler(*args: t.Any, **kwargs: t.Any):
         calls.append((args, kwargs))
 
@@ -21,17 +15,12 @@ def sync_collector(calls: list[t.Any]):
 
 
 async def async_collector(calls: list[t.Any]):
-    """Создаёт асинхронный обработчик."""
-
     async def handler(*args: t.Any, **kwargs: t.Any):
         calls.append((args, kwargs))
 
     return handler
 
 
-# ---------------------------------------------------------------------------
-# Фикстуры
-# ---------------------------------------------------------------------------
 @pytest.fixture
 def event() -> Event:
     return Event()
@@ -42,9 +31,6 @@ def async_event() -> EventAsync:
     return EventAsync()
 
 
-# ---------------------------------------------------------------------------
-# Event: базовые тесты
-# ---------------------------------------------------------------------------
 class TestEventBasic:
     def test_initial_empty(self, event: Event):
         assert len(event) == 0
@@ -103,9 +89,6 @@ class TestEventBasic:
         assert len(event) == 0
 
 
-# ---------------------------------------------------------------------------
-# Event: вызов (invoke)
-# ---------------------------------------------------------------------------
 class TestEventInvoke:
     def test_invoke_calls_all_handlers(self, event: Event[...]):
         calls: list[t.Any] = []
@@ -149,9 +132,6 @@ class TestEventInvoke:
         assert not event.is_invoking
 
 
-# ---------------------------------------------------------------------------
-# Event: параметр override
-# ---------------------------------------------------------------------------
 class TestEventOverride:
     def test_override_replaces_options(self, event: Event[...]):
         calls: list[t.Any] = []
@@ -168,9 +148,6 @@ class TestEventOverride:
         assert not event.has(h)
 
 
-# ---------------------------------------------------------------------------
-# EventAsync: базовые тесты
-# ---------------------------------------------------------------------------
 class TestEventAsyncBasic:
     @pytest.mark.asyncio
     async def test_initial_empty(self, async_event: EventAsync):
@@ -216,9 +193,6 @@ class TestEventAsyncBasic:
         assert len(async_event) == 0
 
 
-# ---------------------------------------------------------------------------
-# EventAsync: асинхронный вызов
-# ---------------------------------------------------------------------------
 class TestEventAsyncInvoke:
     @pytest.mark.asyncio
     async def test_invoke_calls_all_handlers(self, async_event: EventAsync[...]):
@@ -278,9 +252,6 @@ class TestEventAsyncInvoke:
         assert done == []
 
 
-# ---------------------------------------------------------------------------
-# EventAsync: override
-# ---------------------------------------------------------------------------
 class TestEventAsyncAdvanced:
     @pytest.mark.asyncio
     async def test_override_replaces_options(self, async_event: EventAsync[...]):
